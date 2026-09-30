@@ -76,7 +76,7 @@ export default function Home() {
       </nav>
 
       <section className="hero" id="top">
-        <div className="hero-media"><Image src="/images/skyline-night.webp" alt="SAGE Skyline exterior at night" fill priority sizes="100vw" /></div>
+        <div className="hero-media"><Image src="/images/skyline-hero.webp" alt="SAGE Skyline residences at sunset" fill priority sizes="100vw" /></div>
         <div className="hero-shade" />
         <div className="hero-content"><p className="eyebrow">SAGE Skyline · Bhopal</p><h1><span>Rise above</span><span className="serif-italic">the ordinary.</span></h1>
           <div className="hero-foot"><p>SAGE SKYLINE<br />3 • 4 • 5 BHK APARTMENTS &amp; PENTHOUSES<br />BAWADIYA KALAN, BHOPAL</p>
