@@ -45,7 +45,7 @@ export default function Home() {
 
   useLayoutEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    let lenis: { raf: (time: number) => void; destroy: () => void } | undefined;
+    let lenis: { raf: (time: number) => void; destroy: () => void; on: (event: string, callback: () => void) => void } | undefined;
     let raf = 0;
     let context: { revert: () => void } | undefined;
     Promise.all([import("lenis"), import("gsap"), import("gsap/ScrollTrigger")]).then(([{ default: Lenis }, { default: gsap }, { ScrollTrigger }]) => {
@@ -53,12 +53,30 @@ export default function Home() {
       const frame = (time: number) => { lenis?.raf(time); raf = requestAnimationFrame(frame); };
       raf = requestAnimationFrame(frame);
       gsap.registerPlugin(ScrollTrigger);
+      lenis.on("scroll", () => ScrollTrigger.update());
       context = gsap.context(() => {
         gsap.to(".hero-media img", { yPercent: 10, scale: 1.08, ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 1 } });
         gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((element) => {
           gsap.from(element, { y: 54, opacity: 0, duration: 1.05, ease: "power3.out", scrollTrigger: { trigger: element, start: "top 86%" } });
         });
-        gsap.from(".amenity-item", { x: 54, opacity: 0, duration: .85, stagger: .12, ease: "power3.out", scrollTrigger: { trigger: ".amenities", start: "top 72%" } });
+        const amenityTrack = root.current?.querySelector<HTMLElement>(".amenity-track");
+        const amenityWindow = root.current?.querySelector<HTMLElement>(".amenity-window");
+        if (amenityTrack && amenityWindow) {
+          gsap.to(amenityTrack, {
+            x: () => -Math.max(0, amenityTrack.scrollWidth - amenityWindow.clientWidth),
+            ease: "none",
+            scrollTrigger: {
+              trigger: ".amenities",
+              start: "top top",
+              end: () => `+=${Math.max(0, amenityTrack.scrollWidth - amenityWindow.clientWidth)}`,
+              pin: true,
+              pinSpacing: true,
+              scrub: 1,
+              anticipatePin: 1,
+              invalidateOnRefresh: true,
+            },
+          });
+        }
       }, root);
     });
     return () => { cancelAnimationFrame(raf); lenis?.destroy(); context?.revert(); };
@@ -120,10 +138,11 @@ export default function Home() {
       </section>
 
       <section className="amenities section-pad"><div className="amenities-head" data-reveal><div><p className="eyebrow">Verified amenities</p></div><h2>Designed for<br /><em>everyday ritual</em></h2></div>
-        <div className="amenity-track" role="region" aria-label="Amenities photo gallery; scroll horizontally to explore" tabIndex={0}>{amenities.map((item, index) => <article className="amenity-item" key={item.name}>
+        <div className="amenity-window" role="region" aria-label="Amenities photo gallery; scroll the page to explore" tabIndex={0}><div className="amenity-track">{amenities.map((item, index) => <article className="amenity-item" key={item.name}>
           <div className="amenity-image"><img src={item.photo} alt={item.alt} loading={index < 3 ? "eager" : "lazy"} /></div>
           <div className="amenity-caption"><strong>{item.name}</strong><a href={item.source} target="_blank" rel="noreferrer">Photo: {item.credit} / Pexels</a></div>
-        </article>)}</div>
+        </article>)}</div></div>
+        <p className="amenity-scroll-hint" aria-hidden="true">Keep scrolling to explore</p>
         <p className="amenity-source">Illustrative stock photography. Amenities listed on the official SAGE Skyline project page.</p>
       </section>
 
