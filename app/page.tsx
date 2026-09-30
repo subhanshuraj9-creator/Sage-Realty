@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { FormEvent, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { ArrowDown, ArrowUpRight, CirclePlay, ExternalLink, Menu, X } from "lucide-react";
+import { ArrowDown, ArrowUpRight, ExternalLink, Menu, X } from "lucide-react";
 
 const configurations = {
   "3 BHK": { sizes: ["2,155 sq ft"], image: "/images/floor-3bhk.png", note: "D Type" },
@@ -26,7 +26,6 @@ export default function Home() {
   const root = useRef<HTMLElement>(null);
   const [configuration, setConfiguration] = useState<Configuration>("3 BHK");
   const [menuOpen, setMenuOpen] = useState(false);
-  const [filmNote, setFilmNote] = useState(false);
   const [formState, setFormState] = useState<"idle" | "error" | "success">("idle");
 
   useEffect(() => {
@@ -87,7 +86,7 @@ export default function Home() {
       </section>
 
       <section className="idea section-pad" id="idea"><div className="section-number">02</div><div className="idea-grid">
-        <h2 data-reveal>See it<br /><em>before</em><br />you visit it.</h2><div className="idea-copy" data-reveal><p>Property discovery should begin before the first site visit. This concept turns verified project information into a tactile digital journey—one that lets people look closer, compare residences and arrive informed.</p><span className="source-note">An independent digital campaign study.</span></div>
+        <h2 data-reveal>See it<br /><em>before</em><br />you visit it.</h2><div className="idea-copy" data-reveal><p>A considered first look helps future residents understand the project, compare configurations and arrive for a visit with better questions.</p><span className="source-note">An independent digital campaign study.</span></div>
       </div><div className="discovery-sequence" data-reveal aria-label="Discover, explore, enquire, visit">{['Discover', 'Explore', 'Enquire', 'Visit'].map((item, index) => <div key={item}><span>0{index + 1}</span><strong>{item}</strong>{index < 3 && <ArrowDown />}</div>)}</div></section>
 
       <section className="project section-pad" id="project"><div className="project-title" data-reveal><span className="section-number">03</span><p className="eyebrow">The project</p><h2>SAGE<br /><em>Skyline</em></h2></div>
@@ -101,8 +100,7 @@ export default function Home() {
       </section>
 
       <section className="film section-pad" id="film"><div className="film-media"><Image src="/images/skyline-front.webp" alt="SAGE Skyline front exterior" fill sizes="100vw" /><div className="film-overlay" />
-        <button className="film-trigger" onClick={() => setFilmNote(true)} aria-label="View film status"><CirclePlay /><span>Property film</span></button><div className="film-title"><span className="section-number">05</span><h2>The<br /><em>property film</em></h2></div></div>
-        {filmNote && <div className="film-note" role="status"><p>The film frame is ready. Add the supplied master video to activate playback.</p><button onClick={() => setFilmNote(false)}>Close</button></div>}
+        <div className="film-caption"><span>Project film</span><span>SAGE Skyline</span></div><div className="film-title"><span className="section-number">05</span><h2>The<br /><em>property film</em></h2></div></div>
       </section>
 
       <section className="panorama section-pad"><div className="panorama-lines" aria-hidden="true" /><span className="section-number">06</span><p className="eyebrow">Official external experience</p><h2 data-reveal>Experience it<br /><em>in 360°</em></h2><a className="round-link" href="https://emarketlinkage.com/sage/" target="_blank" rel="noreferrer">Explore 360° <ExternalLink /></a></section>
@@ -112,7 +110,8 @@ export default function Home() {
       </section>
 
       <section className="amenities section-pad"><div className="amenities-head" data-reveal><div><span className="section-number">08</span><p className="eyebrow">Verified amenities</p></div><h2>Designed for<br /><em>everyday ritual</em></h2></div>
-        <div className="amenity-track" data-reveal>{amenities.map((item, index) => <article className="amenity-item" key={item}><span>{String(index + 1).padStart(2, '0')}</span><strong>{item}</strong><i>{index % 2 === 0 ? "Active" : "At ease"}</i></article>)}</div>
+        <div className="amenity-track" data-reveal>{amenities.map((item, index) => <article className="amenity-item" key={item}><span>{String(index + 1).padStart(2, '0')}</span><strong>{item}</strong></article>)}</div>
+        <p className="amenity-source">Amenities listed on the official SAGE Skyline project page.</p>
       </section>
 
       <section className="journey section-pad"><div className="journey-intro" data-reveal><span className="section-number">09</span><p className="eyebrow">Campaign system</p><h2>From discovery<br /><em>to site visit</em></h2><p>A connected campaign journey designed to move attention into informed intent.</p></div>
