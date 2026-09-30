@@ -105,7 +105,7 @@ export default function Home() {
 
       <section className="panorama section-pad"><div className="panorama-lines" aria-hidden="true" /><p className="eyebrow">Official external experience</p><h2 data-reveal>Experience it<br /><em>in 360°</em></h2><a className="round-link" href="https://emarketlinkage.com/sage/" target="_blank" rel="noreferrer">Explore 360° <ExternalLink /></a></section>
 
-      <section className="address section-pad" id="address"><div className="address-map" aria-hidden="true"><span className="map-ring ring-one" /><span className="map-ring ring-two" /><span className="map-road road-one" /><span className="map-road road-two" /><span className="map-road road-three" /><span className="map-pin"><i />SAGE Skyline</span></div>
+      <section className="address section-pad" id="address"><div className="address-map"><iframe title="SAGE Skyline location map" src="https://maps.google.com/maps?q=23.1775879%2C77.4420732&z=17&output=embed" loading="lazy" referrerPolicy="no-referrer-when-downgrade" /><a className="map-open-link" href="https://www.google.com/maps/place/SAGE+Skyline+:+3,+4+%26+5+Bhk+apartment+in+Bawadiya+Kala/@23.1775879,77.4420732,17z/data=!3m1!4b1!4m6!3m5!1s0x397c43007a9547f9:0xcf3677fac95d06b9!8m2!3d23.1775879!4d77.4420732!16s%2Fg%2F11x0fgjnyp?hl=en&entry=ttu" target="_blank" rel="noreferrer">Open in Google Maps <ExternalLink /></a></div>
         <div className="address-content"><p className="eyebrow">The address</p><h2 data-reveal>Placed within<br /><em>Bhopal</em></h2><div className="distance-list" data-reveal>{addressPoints.map(([place, distance]) => <div key={place}><strong>{place}</strong><em>{distance}</em></div>)}</div></div>
       </section>
 
