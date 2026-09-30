@@ -11,7 +11,16 @@ const configurations = {
 } as const;
 
 type Configuration = keyof typeof configurations;
-const amenities = ["Gymnasium", "Swimming Pool", "Club House", "Landscaped Gardens", "Acupressure Pathway", "Senior Citizen Sitting Area", "Temple", "Car Parking"];
+const amenities = [
+  { name: "Gymnasium", alt: "Contemporary fitness room with treadmills and strength equipment", photo: "https://images.pexels.com/photos/37352354/pexels-photo-37352354/free-photo-of-modern-gym-interior-with-fitness-equipment.jpeg?auto=compress&dpr=1&h=750&w=1260", credit: "Rana Matloob Hussain", source: "https://www.pexels.com/photo/modern-gym-interior-with-fitness-equipment-37352354/" },
+  { name: "Swimming Pool", alt: "Modern apartment courtyard with a swimming pool", photo: "https://images.pexels.com/photos/27115003/pexels-photo-27115003/free-photo-of-a-swimming-pool-at-a-patio.jpeg?auto=compress&dpr=1&h=750&w=1260", credit: "Adina Yusuf", source: "https://www.pexels.com/photo/a-swimming-pool-at-a-patio-27115003/" },
+  { name: "Club House", alt: "Bright resident lounge with contemporary seating", photo: "https://images.pexels.com/photos/35551655/pexels-photo-35551655/free-photo-of-modern-indoor-lounge-with-contemporary-design.jpeg?auto=compress&dpr=1&h=750&w=1260", credit: "dwi endah kusumawati", source: "https://www.pexels.com/photo/modern-indoor-lounge-with-contemporary-design-35551655/" },
+  { name: "Landscaped Gardens", alt: "Apartment garden with leafy planting and a walking path", photo: "https://images.pexels.com/photos/34056718/pexels-photo-34056718/free-photo-of-modern-apartment-exterior-with-lush-garden.jpeg?auto=compress&dpr=1&h=750&w=1260", credit: "Thang Nguyen", source: "https://www.pexels.com/photo/modern-apartment-exterior-with-lush-garden-34056718/" },
+  { name: "Acupressure Pathway", alt: "Green pedestrian pathway through a residential garden", photo: "https://images.pexels.com/photos/32203740/pexels-photo-32203740/free-photo-of-urban-green-pathway-between-residential-buildings.jpeg?auto=compress&dpr=1&h=750&w=1260", credit: "Elina Volkova", source: "https://www.pexels.com/photo/urban-green-pathway-between-residential-buildings-32203740/" },
+  { name: "Senior Citizen Sitting Area", alt: "Senior couple relaxing together on a park bench", photo: "https://images.pexels.com/photos/9404060/pexels-photo-9404060.png?dpr=1&h=750&w=1260", credit: "Charlie Griffiths", source: "https://www.pexels.com/photo/elderly-man-and-woman-sitting-on-park-bench-9404060/" },
+  { name: "Temple", alt: "Traditional Hindu temple architecture in India", photo: "https://images.pexels.com/photos/7470318/pexels-photo-7470318.jpeg?auto=compress&dpr=1&h=750&w=1260", credit: "Dev Patel", source: "https://www.pexels.com/photo/ancient-temple-7470318/" },
+  { name: "Car Parking", alt: "Multi-storey car park with parked vehicles", photo: "https://images.pexels.com/photos/16551615/pexels-photo-16551615/free-photo-of-view-of-cars-parked-in-a-garage.jpeg?auto=compress&dpr=1&h=750&w=1260", credit: "Anastasiya Badun", source: "https://www.pexels.com/photo/view-of-cars-parked-in-a-garage-16551615/" },
+];
 const addressPoints = [
   ["Apollo SAGE Hospital", "Just beside the project"], ["Reliance Smart Point", "180 m"],
   ["SAGE International School Kolar", "3.4 km"], ["ISBT Bus Stand", "6.8 km"],
@@ -49,6 +58,7 @@ export default function Home() {
         gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((element) => {
           gsap.from(element, { y: 54, opacity: 0, duration: 1.05, ease: "power3.out", scrollTrigger: { trigger: element, start: "top 86%" } });
         });
+        gsap.from(".amenity-item", { x: 54, opacity: 0, duration: .85, stagger: .12, ease: "power3.out", scrollTrigger: { trigger: ".amenities", start: "top 72%" } });
       }, root);
     });
     return () => { cancelAnimationFrame(raf); lenis?.destroy(); context?.revert(); };
@@ -110,8 +120,11 @@ export default function Home() {
       </section>
 
       <section className="amenities section-pad"><div className="amenities-head" data-reveal><div><p className="eyebrow">Verified amenities</p></div><h2>Designed for<br /><em>everyday ritual</em></h2></div>
-        <div className="amenity-track" data-reveal>{amenities.map((item) => <article className="amenity-item" key={item}><strong>{item}</strong></article>)}</div>
-        <p className="amenity-source">Amenities listed on the official SAGE Skyline project page.</p>
+        <div className="amenity-track" role="region" aria-label="Amenities photo gallery; scroll horizontally to explore" tabIndex={0}>{amenities.map((item, index) => <article className="amenity-item" key={item.name}>
+          <div className="amenity-image"><img src={item.photo} alt={item.alt} loading={index < 3 ? "eager" : "lazy"} /></div>
+          <div className="amenity-caption"><strong>{item.name}</strong><a href={item.source} target="_blank" rel="noreferrer">Photo: {item.credit} / Pexels</a></div>
+        </article>)}</div>
+        <p className="amenity-source">Illustrative stock photography. Amenities listed on the official SAGE Skyline project page.</p>
       </section>
 
       <section className="journey section-pad"><div className="journey-intro" data-reveal><p className="eyebrow">Campaign system</p><h2>From discovery<br /><em>to site visit</em></h2><p>A connected campaign journey designed to move attention into informed intent.</p></div>
