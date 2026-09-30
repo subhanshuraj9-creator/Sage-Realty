@@ -99,7 +99,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="film section-pad" id="film"><div className="film-media"><video controls playsInline preload="none" poster="/images/skyline-front.webp" aria-label="SAGE Skyline property film"><source src="/videos/IMG_1260.mp4" type="video/mp4" />Your browser does not support MP4 video.</video><div className="film-overlay" />
+      <section className="film section-pad" id="film"><div className="film-media"><video autoPlay muted loop controls playsInline preload="metadata" poster="/images/skyline-front.webp" aria-label="SAGE Skyline property film"><source src="/videos/IMG_1260.mp4" type="video/mp4" />Your browser does not support MP4 video.</video><div className="film-overlay" />
         <div className="film-title"><h2>The<br /><em>property film</em></h2></div></div>
       </section>
 
