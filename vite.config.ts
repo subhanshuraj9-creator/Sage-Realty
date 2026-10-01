@@ -1,4 +1,6 @@
 import vinext from "vinext";
+import tailwindcss from "@tailwindcss/vite";
+import { nitro } from "nitro/vite";
 import { defineConfig } from "vite";
 import hostingConfig from "./.openai/hosting.json";
 import { readExecutionProfile } from "./scripts/execution-profile.mjs";
@@ -49,17 +51,26 @@ export default defineConfig(async ({ command }) => {
   process.env.MINIFLARE_REGISTRY_PATH ??= ".wrangler/registry";
 
   // Wrangler snapshots its log path while the Cloudflare plugin is imported.
+  const server = {
+    ...(managedLinux
+      ? { host: "0.0.0.0", allowedHosts: ["terminal.local"] }
+      : {}),
+    ...(isCodexSeatbeltSandbox
+      ? { watch: { useFsEvents: false, usePolling: true } }
+      : {}),
+  };
+
+  if (process.env.VERCEL || process.env.NITRO_PRESET === "vercel") {
+    return {
+      server,
+      plugins: [tailwindcss(), vinext(), nitro()],
+    };
+  }
+
   const { cloudflare } = await import("@cloudflare/vite-plugin");
 
   return {
-    server: {
-      ...(managedLinux
-        ? { host: "0.0.0.0", allowedHosts: ["terminal.local"] }
-        : {}),
-      ...(isCodexSeatbeltSandbox
-        ? { watch: { useFsEvents: false, usePolling: true } }
-        : {}),
-    },
+    server,
     plugins: [
       vinext(),
       sites({ mockAuth: !managedLinux }),
